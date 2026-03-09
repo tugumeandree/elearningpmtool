@@ -8,6 +8,7 @@ export interface Task {
   taskName: string
   phase: string
   owner: string
+  assistedBy: string
   startDate: string
   endDate: string
   status:
@@ -25,6 +26,8 @@ type TaskRow = {
   "Task Name"?: string
   Phase?: string
   Owner?: string
+  "Assisted By"?: string
+  "Assisted by"?: string
   "Start Date"?: string
   "End Date"?: string
   Status?: string
@@ -98,6 +101,7 @@ export async function fetchSheet(signal?: AbortSignal): Promise<Task[]> {
     taskName: String(row["Task Name"] ?? "").trim(),
     phase: String(row.Phase ?? "").trim(),
     owner: String(row.Owner ?? "").trim(),
+    assistedBy: String(row["Assisted By"] ?? row["Assisted by"] ?? "").trim(),
     startDate: normalizeDate(row["Start Date"]),
     endDate: normalizeDate(row["End Date"]),
     status: normalizeStatus(row.Status),

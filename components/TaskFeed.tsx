@@ -52,6 +52,9 @@ export default function TaskFeed({ tasks, title = "Task Feed" }: TaskFeedProps) 
               <p>
                 <span className="font-medium text-slate-800">Phase:</span> {task.phase || "N/A"}
               </p>
+              <p className="sm:col-span-2">
+                <span className="font-medium text-slate-800">Assisted By:</span> {task.assistedBy || "N/A"}
+              </p>
             </div>
 
             <div className="mt-3">

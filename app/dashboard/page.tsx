@@ -27,6 +27,7 @@ export default function DashboardPage() {
   const [channel, setChannel] = useState<Channel>("implementation-timeline")
   const [tasks, setTasks] = useState<Task[]>([])
   const [selectedOwner, setSelectedOwner] = useState<string>("All")
+  const [selectedAssistedBy, setSelectedAssistedBy] = useState<string>("All")
   const [selectedPhase, setSelectedPhase] = useState<string>("All")
   const [selectedStatus, setSelectedStatus] = useState<"All" | Task["status"]>("All")
   const [loading, setLoading] = useState(true)
@@ -69,6 +70,20 @@ export default function DashboardPage() {
     return ["All", ...new Set(tasks.map((task) => task.owner || "Unassigned"))]
   }, [tasks])
 
+  const assistedByOptions = useMemo(() => {
+    const people = new Set<string>()
+    for (const task of tasks) {
+      const values = task.assistedBy
+        .split(",")
+        .map((name) => name.trim())
+        .filter(Boolean)
+      for (const value of values) {
+        people.add(value)
+      }
+    }
+    return ["All", ...people]
+  }, [tasks])
+
   const phaseOptions = useMemo(() => {
     return ["All", ...new Set(tasks.map((task) => task.phase || "Unassigned"))]
   }, [tasks])
@@ -80,6 +95,7 @@ export default function DashboardPage() {
     const params = new URLSearchParams(window.location.search)
     const urlChannel = params.get("channel")
     const urlOwner = params.get("owner")
+    const urlAssistedBy = params.get("assistedBy")
     const urlPhase = params.get("phase")
     const urlStatus = params.get("status")
 
@@ -91,6 +107,10 @@ export default function DashboardPage() {
       setSelectedOwner(urlOwner)
     }
 
+    if (urlAssistedBy && urlAssistedBy !== selectedAssistedBy) {
+      setSelectedAssistedBy(urlAssistedBy)
+    }
+
     if (urlPhase && urlPhase !== selectedPhase) {
       setSelectedPhase(urlPhase)
     }
@@ -98,7 +118,7 @@ export default function DashboardPage() {
     if (urlStatus && statusOptions.includes(urlStatus as "All" | Task["status"]) && urlStatus !== selectedStatus) {
       setSelectedStatus(urlStatus as "All" | Task["status"])
     }
-  }, [channel, selectedOwner, selectedPhase, selectedStatus])
+  }, [channel, selectedAssistedBy, selectedOwner, selectedPhase, selectedStatus])
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
@@ -106,6 +126,9 @@ export default function DashboardPage() {
     params.set("channel", channel)
     if (selectedOwner === "All") params.delete("owner")
     else params.set("owner", selectedOwner)
+
+    if (selectedAssistedBy === "All") params.delete("assistedBy")
+    else params.set("assistedBy", selectedAssistedBy)
 
     if (selectedPhase === "All") params.delete("phase")
     else params.set("phase", selectedPhase)
@@ -122,13 +145,19 @@ export default function DashboardPage() {
       const nextUrl = `${window.location.pathname}${nextQuery ? `?${nextQuery}` : ""}`
       window.history.replaceState({}, "", nextUrl)
     }
-  }, [channel, selectedOwner, selectedPhase, selectedStatus])
+  }, [channel, selectedAssistedBy, selectedOwner, selectedPhase, selectedStatus])
 
   useEffect(() => {
     if (!ownerOptions.includes(selectedOwner)) {
       setSelectedOwner("All")
     }
   }, [ownerOptions, selectedOwner])
+
+  useEffect(() => {
+    if (!assistedByOptions.includes(selectedAssistedBy)) {
+      setSelectedAssistedBy("All")
+    }
+  }, [assistedByOptions, selectedAssistedBy])
 
   useEffect(() => {
     if (!phaseOptions.includes(selectedPhase)) {
@@ -141,11 +170,18 @@ export default function DashboardPage() {
       const owner = task.owner || "Unassigned"
       const phase = task.phase || "Unassigned"
       const ownerMatch = selectedOwner === "All" || selectedOwner === owner
+      const assistedByMatch =
+        selectedAssistedBy === "All" ||
+        task.assistedBy
+          .split(",")
+          .map((name) => name.trim())
+          .filter(Boolean)
+          .includes(selectedAssistedBy)
       const phaseMatch = selectedPhase === "All" || selectedPhase === phase
       const statusMatch = selectedStatus === "All" || selectedStatus === task.status
-      return ownerMatch && phaseMatch && statusMatch
+      return ownerMatch && assistedByMatch && phaseMatch && statusMatch
     })
-  }, [selectedOwner, selectedPhase, selectedStatus, tasks])
+  }, [selectedAssistedBy, selectedOwner, selectedPhase, selectedStatus, tasks])
 
   const visibleTasks = useMemo(() => {
     if (channel === "milestones") {
@@ -176,13 +212,14 @@ export default function DashboardPage() {
   }, [filteredTasks])
 
   const ownerRows = useMemo(() => {
-    const byOwner = new Map<string, { total: number; done: number; inFlight: number }>()
+    const byOwner = new Map<string, { total: number; done: number; inFlight: number; assisted: number }>()
     for (const task of visibleTasks) {
       const owner = task.owner || "Unassigned"
-      const current = byOwner.get(owner) ?? { total: 0, done: 0, inFlight: 0 }
+      const current = byOwner.get(owner) ?? { total: 0, done: 0, inFlight: 0, assisted: 0 }
       current.total += 1
       if (task.status === "Completed") current.done += 1
       if (task.status !== "Completed") current.inFlight += 1
+      if (task.assistedBy.trim()) current.assisted += 1
       byOwner.set(owner, current)
     }
 
@@ -235,7 +272,7 @@ export default function DashboardPage() {
               })}
             </div>
 
-            <div className="grid gap-3 md:grid-cols-2">
+            <div className="grid gap-3 md:grid-cols-3">
               <label className="text-sm text-slate-600">
                 Owner
                 <select
@@ -246,6 +283,21 @@ export default function DashboardPage() {
                   {ownerOptions.map((owner) => (
                     <option key={owner} value={owner}>
                       {owner}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="text-sm text-slate-600">
+                Assisted By
+                <select
+                  value={selectedAssistedBy}
+                  onChange={(event) => setSelectedAssistedBy(event.target.value)}
+                  className="mt-1 w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-slate-800"
+                >
+                  {assistedByOptions.map((person) => (
+                    <option key={person} value={person}>
+                      {person}
                     </option>
                   ))}
                 </select>
@@ -269,7 +321,7 @@ export default function DashboardPage() {
 
             <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-xs text-slate-500">
-                Active filters: owner {selectedOwner}, phase {selectedPhase}, status {selectedStatus}
+                Active filters: owner {selectedOwner}, assisted by {selectedAssistedBy}, phase {selectedPhase}, status {selectedStatus}
               </p>
               <div className="flex flex-wrap items-center gap-2">
                 <button
@@ -291,6 +343,7 @@ export default function DashboardPage() {
                   type="button"
                   onClick={() => {
                     setSelectedOwner("All")
+                    setSelectedAssistedBy("All")
                     setSelectedPhase("All")
                     setSelectedStatus("All")
                   }}
@@ -344,6 +397,7 @@ export default function DashboardPage() {
                             <span className="text-xs text-slate-500">{task.endDate || "No due date"}</span>
                           </div>
                           <p className="mt-1 text-xs text-slate-600">Owner: {task.owner || "Unassigned"}</p>
+                          <p className="mt-1 text-xs text-slate-600">Assisted By: {task.assistedBy || "N/A"}</p>
                         </div>
                       ))}
                     </div>
@@ -363,6 +417,7 @@ export default function DashboardPage() {
                             <th className="px-2 py-2">Owner</th>
                             <th className="px-2 py-2">Total</th>
                             <th className="px-2 py-2">In Flight</th>
+                            <th className="px-2 py-2">Assisted</th>
                             <th className="px-2 py-2">Completed</th>
                           </tr>
                         </thead>
@@ -372,6 +427,7 @@ export default function DashboardPage() {
                               <td className="px-2 py-2 font-medium">{row.owner}</td>
                               <td className="px-2 py-2">{row.total}</td>
                               <td className="px-2 py-2">{row.inFlight}</td>
+                              <td className="px-2 py-2">{row.assisted}</td>
                               <td className="px-2 py-2">{row.done}</td>
                             </tr>
                           ))}

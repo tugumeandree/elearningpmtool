@@ -54,6 +54,7 @@ export default function Sidebar({ activeChannel, onChannelSelect, isOpen, onTogg
         <div className="border-b border-slate-800 px-5 py-4">
           <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Workspace</p>
           <h1 className="mt-2 text-lg font-semibold leading-tight">Decent Work &amp; Social Protection (DWSP) Project Dashboard</h1>
+          <p className="mt-2 text-xs text-slate-400">Contract Reference: UGA21003_A050401</p>
         </div>
 
         <nav className="p-3 pb-36">
