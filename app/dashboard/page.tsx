@@ -199,7 +199,7 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <Sidebar
         activeChannel={channel}
         onChannelSelect={setChannel}
@@ -214,7 +214,7 @@ export default function DashboardPage() {
         }`}
       >
         <ChannelView channel={channel}>
-          <section className="rounded-lg border border-gray-200 bg-white p-4">
+          <section className="rounded-2xl border border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur sm:p-5">
             <div className="mb-3 flex flex-wrap items-center gap-2">
               {statusOptions.map((status) => {
                 const active = status === selectedStatus
@@ -223,10 +223,10 @@ export default function DashboardPage() {
                     key={status}
                     type="button"
                     onClick={() => setSelectedStatus(status)}
-                    className={`rounded-full border px-3 py-1 text-xs font-medium transition ${
+                    className={`rounded-full border px-3 py-1 text-xs font-semibold transition ${
                       active
                         ? "border-slate-900 bg-slate-900 text-white"
-                        : "border-gray-300 bg-white text-slate-600 hover:border-slate-400"
+                        : "border-slate-300 bg-white text-slate-600 hover:border-slate-500"
                     }`}
                   >
                     {status}
@@ -267,11 +267,11 @@ export default function DashboardPage() {
               </label>
             </div>
 
-            <div className="mt-3 flex items-center justify-between">
+            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="text-xs text-slate-500">
                 Active filters: owner {selectedOwner}, phase {selectedPhase}, status {selectedStatus}
               </p>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <button
                   type="button"
                   onClick={async () => {
@@ -282,7 +282,7 @@ export default function DashboardPage() {
                       showToast("Unable to copy link", "error")
                     }
                   }}
-                  className="rounded-md border border-gray-300 px-3 py-1 text-xs font-medium text-slate-600 hover:bg-gray-50"
+                  className="rounded-md border border-slate-300 bg-white px-3 py-1 text-xs font-medium text-slate-600 hover:bg-slate-50"
                 >
                   Copy Share Link
                 </button>
@@ -294,7 +294,7 @@ export default function DashboardPage() {
                     setSelectedPhase("All")
                     setSelectedStatus("All")
                   }}
-                  className="rounded-md border border-gray-300 px-3 py-1 text-xs font-medium text-slate-600 hover:bg-gray-50"
+                  className="rounded-md border border-slate-300 bg-white px-3 py-1 text-xs font-medium text-slate-600 hover:bg-slate-50"
                 >
                   Reset Filters
                 </button>
@@ -303,15 +303,15 @@ export default function DashboardPage() {
           </section>
 
           <div className="grid gap-3 sm:grid-cols-3">
-            <article className="rounded-lg border border-gray-200 bg-white p-4">
+            <article className="rounded-2xl border border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur">
               <p className="text-xs uppercase tracking-wide text-slate-500">Completion</p>
               <p className="mt-2 text-2xl font-semibold text-slate-900">{completedCount}/{filteredTasks.length}</p>
             </article>
-            <article className="rounded-lg border border-gray-200 bg-white p-4">
+            <article className="rounded-2xl border border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur">
               <p className="text-xs uppercase tracking-wide text-slate-500">Average Progress</p>
               <p className="mt-2 text-2xl font-semibold text-slate-900">{avgProgress}%</p>
             </article>
-            <article className="rounded-lg border border-gray-200 bg-white p-4">
+            <article className="rounded-2xl border border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur">
               <p className="text-xs uppercase tracking-wide text-slate-500">Delayed Tasks</p>
               <p className="mt-2 text-2xl font-semibold text-slate-900">{delayedCount}</p>
             </article>

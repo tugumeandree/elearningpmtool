@@ -106,6 +106,22 @@ netlify deploy --build
 netlify deploy --prod --build
 ```
 
+### Option 3: GitHub Actions Auto Deploy
+
+Workflow file: `.github/workflows/netlify-deploy.yml`
+
+Triggers:
+- push to `main`
+- manual run via `workflow_dispatch`
+
+Required GitHub repository secrets:
+- `NETLIFY_AUTH_TOKEN`
+- `NETLIFY_SITE_ID`
+
+How to get values:
+- `NETLIFY_AUTH_TOKEN`: Netlify user settings -> Applications -> Personal access tokens
+- `NETLIFY_SITE_ID`: Site settings -> General -> Site details
+
 ## Notes
 
 - Dev cache is configured to in-memory in `next.config.mjs` to avoid Windows filesystem cache corruption in `.next`.

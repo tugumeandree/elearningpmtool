@@ -42,7 +42,7 @@ export default function GanttChart({ tasks }: GanttChartProps) {
   const weekStarts = [0, 7, 14, 21]
 
   return (
-    <section className="rounded-lg border border-gray-200 bg-white p-5">
+    <section className="rounded-2xl border border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur">
       <h3 className="mb-4 text-lg font-semibold text-slate-900">Project Gantt (Mar 5 - Mar 31)</h3>
 
       <div className="overflow-x-auto">
@@ -85,7 +85,7 @@ export default function GanttChart({ tasks }: GanttChartProps) {
               const widthPercent = (barDays / totalDays) * 100
 
               return (
-                <div key={task.taskId || `${task.taskName}-${task.owner}`} className="flex items-center gap-4">
+                <div key={task.taskId || `${task.taskName}-${task.owner}`} className="flex items-center gap-3 sm:gap-4">
                   <div className="w-40 shrink-0">
                     <p className="truncate text-sm font-semibold text-slate-800">{task.taskName || "Untitled Task"}</p>
                     <p className="truncate text-xs text-slate-500">{task.owner || "Unassigned"}</p>

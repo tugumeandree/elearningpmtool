@@ -13,9 +13,17 @@ const statusClasses: Record<Task["status"], string> = {
   "Not Started": "bg-gray-100 text-gray-600 border-gray-200"
 }
 
+const progressBarClasses: Record<Task["status"], string> = {
+  Completed: "bg-emerald-500",
+  "In Progress": "bg-amber-500",
+  "Waiting for Client": "bg-sky-500",
+  Delayed: "bg-rose-500",
+  "Not Started": "bg-slate-400"
+}
+
 export default function TaskFeed({ tasks, title = "Task Feed" }: TaskFeedProps) {
   return (
-    <section className="rounded-lg border border-gray-200 bg-white p-5">
+    <section className="rounded-2xl border border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur">
       <div className="mb-4 flex items-center justify-between">
         <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
         <p className="text-xs text-slate-500">{tasks.length} tasks</p>
@@ -23,13 +31,13 @@ export default function TaskFeed({ tasks, title = "Task Feed" }: TaskFeedProps) 
 
       <div className="space-y-3">
         {tasks.length === 0 ? (
-          <p className="rounded-md border border-dashed border-gray-200 p-4 text-sm text-slate-500">
+          <p className="rounded-xl border border-dashed border-slate-300 p-4 text-sm text-slate-500">
             No tasks match the current filters.
           </p>
         ) : null}
 
         {tasks.map((task) => (
-          <article key={task.taskId || `${task.taskName}-${task.startDate}`} className="rounded-md border border-gray-200 p-4">
+          <article key={task.taskId || `${task.taskName}-${task.startDate}`} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h4 className="text-base font-bold text-slate-900">{task.taskName || "Untitled Task"}</h4>
               <span className={`rounded-full border px-2 py-1 text-xs font-medium ${statusClasses[task.status]}`}>
@@ -52,7 +60,10 @@ export default function TaskFeed({ tasks, title = "Task Feed" }: TaskFeedProps) 
                 <span>{task.progress}%</span>
               </div>
               <div className="h-2 rounded-full bg-gray-100">
-                <div className="h-full rounded-full bg-slate-900" style={{ width: `${task.progress}%` }} />
+                <div
+                  className={`h-full rounded-full ${progressBarClasses[task.status]}`}
+                  style={{ width: `${task.progress}%` }}
+                />
               </div>
             </div>
 
