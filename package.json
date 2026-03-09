@@ -6,8 +6,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "netlify-build": "next build",
     "start": "next start",
     "lint": "next lint"
+  },
+  "engines": {
+    "node": ">=20 <23"
   },
   "keywords": [
     "nextjs",
@@ -25,6 +29,7 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@netlify/plugin-nextjs": "^5.15.8",
     "@types/node": "^25.3.5",
     "@types/papaparse": "^5.5.2",
     "@types/react": "^19.2.14",
