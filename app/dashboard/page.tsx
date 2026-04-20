@@ -5,12 +5,19 @@ import Sidebar from "@/components/Sidebar"
 import TaskFeed from "@/components/TaskFeed"
 import GanttChart from "@/components/GanttChart"
 import ChannelView from "@/components/ChannelView"
+import ReviewCenterPanel from "@/components/ReviewCenterPanel"
 import Toast from "@/components/Toast"
 import { fetchSheet, Task } from "@/lib/fetchSheet"
 
-type Channel = "implementation-timeline" | "milestones" | "module-tracker"
+type Channel = "implementation-timeline" | "milestones" | "module-tracker" | "script-review" | "review-center"
 
-const validChannels: Channel[] = ["implementation-timeline", "milestones", "module-tracker"]
+const validChannels: Channel[] = [
+  "implementation-timeline",
+  "milestones",
+  "module-tracker",
+  "script-review",
+  "review-center"
+]
 const statusOptions: Array<"All" | Task["status"]> = [
   "All",
   "Not Started",
@@ -184,6 +191,10 @@ export default function DashboardPage() {
   }, [selectedAssistedBy, selectedOwner, selectedPhase, selectedStatus, tasks])
 
   const visibleTasks = useMemo(() => {
+    if (channel === "script-review" || channel === "review-center") {
+      return []
+    }
+
     if (channel === "milestones") {
       return filteredTasks.filter((task) => task.status === "Completed" || task.progress >= 80)
     }
@@ -251,6 +262,10 @@ export default function DashboardPage() {
         }`}
       >
         <ChannelView channel={channel}>
+          {channel === "review-center" ? <ReviewCenterPanel showHeader={false} /> : null}
+
+          {channel !== "review-center" ? (
+            <>
           <section className="rounded-2xl border border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur sm:p-5">
             <div className="mb-3 flex flex-wrap items-center gap-2">
               {statusOptions.map((status) => {
@@ -437,6 +452,15 @@ export default function DashboardPage() {
                   </section>
                 </div>
               ) : null}
+
+              {channel === "script-review" ? (
+                <section className="rounded-2xl border border-slate-200/70 bg-white/90 p-8 text-center shadow-sm backdrop-blur">
+                  <h3 className="text-xl font-semibold text-slate-900">Script Review</h3>
+                  <p className="mt-2 text-sm text-slate-500">Coming soon</p>
+                </section>
+              ) : null}
+            </>
+          ) : null}
             </>
           ) : null}
         </ChannelView>
