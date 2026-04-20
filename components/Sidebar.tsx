@@ -1,9 +1,9 @@
 "use client"
 
 import Image from "next/image"
-import { Menu, X, KanbanSquare, Flag, ListTodo, FileCheck2, MessagesSquare } from "lucide-react"
+import { Menu, X, KanbanSquare, Flag, ListTodo, MessagesSquare } from "lucide-react"
 
-type Channel = "implementation-timeline" | "milestones" | "module-tracker" | "script-review" | "review-center"
+type Channel = "implementation-timeline" | "milestones" | "module-tracker" | "review-center"
 
 interface SidebarProps {
   activeChannel: Channel
@@ -17,7 +17,6 @@ const channels: Array<{ id: Channel; label: string; icon: React.ComponentType<{ 
   { id: "implementation-timeline", label: "#implementation-timeline", icon: KanbanSquare },
   { id: "milestones", label: "#milestones", icon: Flag },
   { id: "module-tracker", label: "#module-tracker", icon: ListTodo },
-  { id: "script-review", label: "#script-review", icon: FileCheck2 },
   { id: "review-center", label: "#review-center", icon: MessagesSquare }
 ]
 

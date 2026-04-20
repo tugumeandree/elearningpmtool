@@ -9,13 +9,12 @@ import ReviewCenterPanel from "@/components/ReviewCenterPanel"
 import Toast from "@/components/Toast"
 import { fetchSheet, Task } from "@/lib/fetchSheet"
 
-type Channel = "implementation-timeline" | "milestones" | "module-tracker" | "script-review" | "review-center"
+type Channel = "implementation-timeline" | "milestones" | "module-tracker" | "review-center"
 
 const validChannels: Channel[] = [
   "implementation-timeline",
   "milestones",
   "module-tracker",
-  "script-review",
   "review-center"
 ]
 const statusOptions: Array<"All" | Task["status"]> = [
@@ -106,7 +105,9 @@ export default function DashboardPage() {
     const urlPhase = params.get("phase")
     const urlStatus = params.get("status")
 
-    if (urlChannel && validChannels.includes(urlChannel as Channel) && urlChannel !== channel) {
+    if (urlChannel === "script-review") {
+      setChannel("review-center")
+    } else if (urlChannel && validChannels.includes(urlChannel as Channel) && urlChannel !== channel) {
       setChannel(urlChannel as Channel)
     }
 
@@ -191,7 +192,7 @@ export default function DashboardPage() {
   }, [selectedAssistedBy, selectedOwner, selectedPhase, selectedStatus, tasks])
 
   const visibleTasks = useMemo(() => {
-    if (channel === "script-review" || channel === "review-center") {
+    if (channel === "review-center") {
       return []
     }
 
@@ -453,12 +454,6 @@ export default function DashboardPage() {
                 </div>
               ) : null}
 
-              {channel === "script-review" ? (
-                <section className="rounded-2xl border border-slate-200/70 bg-white/90 p-8 text-center shadow-sm backdrop-blur">
-                  <h3 className="text-xl font-semibold text-slate-900">Script Review</h3>
-                  <p className="mt-2 text-sm text-slate-500">Coming soon</p>
-                </section>
-              ) : null}
             </>
           ) : null}
             </>

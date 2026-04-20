@@ -1,4 +1,4 @@
-type Channel = "implementation-timeline" | "milestones" | "module-tracker" | "script-review" | "review-center"
+type Channel = "implementation-timeline" | "milestones" | "module-tracker" | "review-center"
 
 interface ChannelViewProps {
   channel: Channel
@@ -17,10 +17,6 @@ const channelMeta: Record<Channel, { title: string; subtitle: string }> = {
   "module-tracker": {
     title: "Module Tracker",
     subtitle: "Task ownership and module-level progress"
-  },
-  "script-review": {
-    title: "Script Review",
-    subtitle: "Editorial and script quality workflow"
   },
   "review-center": {
     title: "Review Center",

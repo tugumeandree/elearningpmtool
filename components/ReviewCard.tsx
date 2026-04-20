@@ -17,7 +17,6 @@ export interface ReviewItem {
 
 interface ReviewCardProps {
   item: ReviewItem
-  onStatusChange: (id: number, status: ReviewStatus) => void
 }
 
 const statusStyles: Record<ReviewStatus, string> = {
@@ -47,7 +46,7 @@ function getInitials(owner: string) {
     .join("")
 }
 
-export default function ReviewCard({ item, onStatusChange }: ReviewCardProps) {
+export default function ReviewCard({ item }: ReviewCardProps) {
   return (
     <article className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md md:p-6">
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
@@ -76,21 +75,17 @@ export default function ReviewCard({ item, onStatusChange }: ReviewCardProps) {
           </div>
         </div>
 
-        <div className="flex min-w-[16rem] flex-col gap-3 border-t border-slate-100 pt-3 md:border-l md:border-t-0 md:pl-4 md:pt-0">
-          <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
-            Status
-            <select
-              value={item.status}
-              onChange={(event) => onStatusChange(item.id, event.target.value as ReviewStatus)}
-              className="mt-1.5 w-full rounded-lg border border-slate-300 bg-slate-50 px-3 py-2 text-sm text-slate-700 focus:border-blue-500 focus:bg-white focus:outline-none"
+        <div className="flex min-w-0 flex-col gap-3 border-t border-slate-100 pt-3 md:min-w-[16rem] md:border-l md:border-t-0 md:pl-4 md:pt-0">
+          <div className="space-y-1.5">
+            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Status</p>
+            <span
+              className={`inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold ${statusStyles[item.status]}`}
             >
-              <option value="Under Review">Under Review</option>
-              <option value="Approved">Approved</option>
-              <option value="Not Started">Not Started</option>
-            </select>
-          </label>
+              {item.status}
+            </span>
+          </div>
 
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="inline-flex items-center gap-2 text-sm font-medium text-slate-700">
               <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white">
                 {getInitials(item.owner)}
@@ -105,7 +100,7 @@ export default function ReviewCard({ item, onStatusChange }: ReviewCardProps) {
               href={item.link}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 hover:shadow-sm"
+              className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 hover:shadow-sm sm:w-auto"
             >
               Open Document
               <ExternalLink className="h-4 w-4" />
