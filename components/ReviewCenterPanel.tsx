@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import { Search, Sparkles } from "lucide-react"
 import ReviewCard, { ReviewItem } from "@/components/ReviewCard"
 
-type ReviewFilter = "All" | "Script" | "SME Video" | "Storyboard" | "Audio"
+type ReviewFilter = "All" | "Script" | "SME Video" | "Storyboard" | "Audio" | "Animation"
 
 const baseReviewItems: ReviewItem[] = [
   {
@@ -31,6 +31,9 @@ const baseReviewItems: ReviewItem[] = [
     link: "https://docs.google.com/presentation/d/1KVmFsXjK3he1zXNsKZcRByLLo5ZaXfpT/edit",
     thumbnail:
       "https://res.cloudinary.com/dwa3soopc/image/upload/v1776849096/Enabel/French_Thumbnail_1_tpfvfj.png",
+    feedbackLink:
+      "https://docs.google.com/spreadsheets/d/1PVL-Aie9TXKTeuB_8ATqk6k6X-c42649IsIReIzxDJk/edit?gid=188733276#gid=188733276",
+    feedbackLabel: "Submit Feedback",
     status: "Under Review",
     owner: "Lucie"
   },
@@ -66,17 +69,29 @@ const baseReviewItems: ReviewItem[] = [
     thumbnail: "https://placehold.co/1200x675/dcfce7/14532d?text=Audio+Review",
     status: "Under Review",
     owner: "Full Team"
+  },
+  {
+    id: 6,
+    title: "Animations Review",
+    description: "Animation assets and draft renders",
+    type: "Animation",
+    language: "EN/FR",
+    link: "https://drive.google.com/drive/folders/1whLNSDEzDOoInRSl25j3T8mX5zyEQcUp?usp=sharing",
+    thumbnail: "https://placehold.co/1200x675/cffafe/155e75?text=Animations+Review",
+    status: "Under Review",
+    owner: "Full Team"
   }
 ]
 
-const filterTabs: ReviewFilter[] = ["All", "Script", "SME Video", "Storyboard", "Audio"]
+const filterTabs: ReviewFilter[] = ["All", "Script", "SME Video", "Storyboard", "Audio", "Animation"]
 
 const filterTabLabels: Record<ReviewFilter, string> = {
   All: "All",
   Script: "Scripts",
   "SME Video": "SME Videos",
   Storyboard: "Storyboards",
-  Audio: "Audio (Voice Over & Music)"
+  Audio: "Audio (Voice Over & Music)",
+  Animation: "Animations"
 }
 
 interface ReviewCenterPanelProps {
