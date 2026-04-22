@@ -8,7 +8,7 @@ export interface ReviewItem {
   id: number
   title: string
   description: string
-  type: "Script" | "SME Video" | "Storyboard"
+  type: "Script" | "SME Video" | "Storyboard" | "Audio"
   language: "EN" | "FR" | "EN/FR"
   link: string
   status: ReviewStatus
@@ -28,7 +28,8 @@ const statusStyles: Record<ReviewStatus, string> = {
 const typeStyles: Record<ReviewItem["type"], string> = {
   Script: "border-blue-200 bg-blue-50 text-blue-700",
   "SME Video": "border-orange-200 bg-orange-50 text-orange-700",
-  Storyboard: "border-fuchsia-200 bg-fuchsia-50 text-fuchsia-700"
+  Storyboard: "border-fuchsia-200 bg-fuchsia-50 text-fuchsia-700",
+  Audio: "border-emerald-200 bg-emerald-50 text-emerald-700"
 }
 
 const languageStyles: Record<ReviewItem["language"], string> = {

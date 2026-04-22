@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import { Search, Sparkles } from "lucide-react"
 import ReviewCard, { ReviewItem } from "@/components/ReviewCard"
 
-type ReviewFilter = "All" | "Script" | "SME Video" | "Storyboard"
+type ReviewFilter = "All" | "Script" | "SME Video" | "Storyboard" | "Audio"
 
 const baseReviewItems: ReviewItem[] = [
   {
@@ -46,10 +46,28 @@ const baseReviewItems: ReviewItem[] = [
     link: "https://drive.google.com/drive/folders/1MIkPchrSMkEC97HrY6LD5_In9-6ef2kx",
     status: "Under Review",
     owner: "Full Team"
+  },
+  {
+    id: 5,
+    title: "Audio (Voice Over & Music) Review",
+    description: "Voice over and music files (EN + FR)",
+    type: "Audio",
+    language: "EN/FR",
+    link: "https://drive.google.com/drive/folders/11o1KcQA5ImFrMgUDe_MhI-ecvrzJzAUq?usp=sharing",
+    status: "Under Review",
+    owner: "Full Team"
   }
 ]
 
-const filterTabs: ReviewFilter[] = ["All", "Script", "SME Video", "Storyboard"]
+const filterTabs: ReviewFilter[] = ["All", "Script", "SME Video", "Storyboard", "Audio"]
+
+const filterTabLabels: Record<ReviewFilter, string> = {
+  All: "All",
+  Script: "Scripts",
+  "SME Video": "SME Videos",
+  Storyboard: "Storyboards",
+  Audio: "Audio (Voice Over & Music)"
+}
 
 interface ReviewCenterPanelProps {
   showHeader?: boolean
@@ -118,7 +136,7 @@ export default function ReviewCenterPanel({ showHeader = true }: ReviewCenterPan
                       : "border-slate-300 bg-white text-slate-600 hover:border-slate-500 hover:text-slate-800"
                   }`}
                 >
-                  {tab === "All" ? "All" : `${tab}s`}
+                  {filterTabLabels[tab]}
                 </button>
               )
             })}
