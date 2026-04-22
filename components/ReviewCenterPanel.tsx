@@ -16,12 +16,15 @@ const baseReviewItems: ReviewItem[] = [
     link: "https://docs.google.com/presentation/d/1vST4-j9NU_Eg50u3WAtw9o1qEqyUEdTT/edit",
     thumbnail:
       "https://res.cloudinary.com/dwa3soopc/image/upload/v1776849097/Enabel/Animated%20Video%20Script%20%28EN%29.png",
+    feedbackLink:
+      "https://docs.google.com/spreadsheets/d/1PVL-Aie9TXKTeuB_8ATqk6k6X-c42649IsIReIzxDJk/edit?gid=591557179#gid=591557179",
+    feedbackLabel: "Submit Feedback",
     status: "Under Review",
     owner: "Berivan"
   },
   {
     id: 2,
-    title: "Animated Video Script (FR)",
+    title: "French Localised Animated Video Script (FR)",
     description: "Travail decent et protection sociale - Version Francaise",
     type: "Script",
     language: "FR",

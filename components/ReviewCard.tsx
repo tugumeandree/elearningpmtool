@@ -12,6 +12,8 @@ export interface ReviewItem {
   language: "EN" | "FR" | "EN/FR"
   link: string
   thumbnail?: string
+  feedbackLink?: string
+  feedbackLabel?: string
   status: ReviewStatus
   owner: string
 }
@@ -98,7 +100,7 @@ export default function ReviewCard({ item }: ReviewCardProps) {
             </span>
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-col gap-3">
             <div className="inline-flex items-center gap-2 text-sm font-medium text-slate-700">
               <span className="inline-flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-xs font-bold text-white">
                 {getInitials(item.owner)}
@@ -109,15 +111,29 @@ export default function ReviewCard({ item }: ReviewCardProps) {
               </span>
             </div>
 
-            <a
-              href={item.link}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 hover:shadow-sm sm:w-auto"
-            >
-              Open Document
-              <ExternalLink className="h-4 w-4" />
-            </a>
+            <div className="flex w-full flex-col gap-2">
+              <a
+                href={item.link}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 hover:shadow-sm"
+              >
+                Open Document
+                <ExternalLink className="h-4 w-4" />
+              </a>
+
+              {item.feedbackLink ? (
+                <a
+                  href={item.feedbackLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-emerald-300 bg-emerald-50 px-3 py-2 text-sm font-semibold text-emerald-700 transition hover:border-emerald-400 hover:bg-emerald-100"
+                >
+                  {item.feedbackLabel ?? "Submit Feedback"}
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              ) : null}
+            </div>
           </div>
         </div>
       </div>
