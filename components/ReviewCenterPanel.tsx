@@ -14,6 +14,8 @@ const baseReviewItems: ReviewItem[] = [
     type: "Script",
     language: "EN",
     link: "https://docs.google.com/presentation/d/1vST4-j9NU_Eg50u3WAtw9o1qEqyUEdTT/edit",
+    thumbnail:
+      "https://res.cloudinary.com/dwa3soopc/image/upload/v1776849097/Enabel/Animated%20Video%20Script%20%28EN%29.png",
     status: "Under Review",
     owner: "Berivan"
   },
@@ -24,6 +26,8 @@ const baseReviewItems: ReviewItem[] = [
     type: "Script",
     language: "FR",
     link: "https://docs.google.com/presentation/d/1KVmFsXjK3he1zXNsKZcRByLLo5ZaXfpT/edit",
+    thumbnail:
+      "https://res.cloudinary.com/dwa3soopc/image/upload/v1776849096/Enabel/French_Thumbnail_1_tpfvfj.png",
     status: "Under Review",
     owner: "Lucie"
   },
@@ -34,6 +38,7 @@ const baseReviewItems: ReviewItem[] = [
     type: "SME Video",
     language: "EN/FR",
     link: "https://docs.google.com/presentation/d/1YY8uC3BgDr_ZwFK6AgyVzhbeTVgIhY6J/edit",
+    thumbnail: "https://placehold.co/1200x675/e2e8f0/334155?text=SME+Video+Review",
     status: "Under Review",
     owner: "Enabel Team"
   },
@@ -44,6 +49,7 @@ const baseReviewItems: ReviewItem[] = [
     type: "Storyboard",
     language: "EN/FR",
     link: "https://drive.google.com/drive/folders/1MIkPchrSMkEC97HrY6LD5_In9-6ef2kx",
+    thumbnail: "https://placehold.co/1200x675/fce7f3/831843?text=Storyboard+Review",
     status: "Under Review",
     owner: "Full Team"
   },
@@ -54,6 +60,7 @@ const baseReviewItems: ReviewItem[] = [
     type: "Audio",
     language: "EN/FR",
     link: "https://drive.google.com/drive/folders/11o1KcQA5ImFrMgUDe_MhI-ecvrzJzAUq?usp=sharing",
+    thumbnail: "https://placehold.co/1200x675/dcfce7/14532d?text=Audio+Review",
     status: "Under Review",
     owner: "Full Team"
   }
@@ -152,17 +159,19 @@ export default function ReviewCenterPanel({ showHeader = true }: ReviewCenterPan
         </div>
       </section>
 
-      <div className="space-y-4">
+      <div>
         {filteredItems.length > 0 ? (
-          filteredItems.map((item, index) => (
-            <div
-              key={item.id}
-              className={`transition-all duration-300 ${mounted ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
-              style={{ transitionDelay: `${index * 50}ms` }}
-            >
-              <ReviewCard item={item} />
-            </div>
-          ))
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            {filteredItems.map((item, index) => (
+              <div
+                key={item.id}
+                className={`transition-all duration-300 ${mounted ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
+                style={{ transitionDelay: `${index * 50}ms` }}
+              >
+                <ReviewCard item={item} />
+              </div>
+            ))}
+          </div>
         ) : (
           <section className="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center">
             <h3 className="text-lg font-semibold text-slate-800">No review items found</h3>

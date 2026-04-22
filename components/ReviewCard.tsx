@@ -11,6 +11,7 @@ export interface ReviewItem {
   type: "Script" | "SME Video" | "Storyboard" | "Audio"
   language: "EN" | "FR" | "EN/FR"
   link: string
+  thumbnail?: string
   status: ReviewStatus
   owner: string
 }
@@ -49,8 +50,19 @@ function getInitials(owner: string) {
 
 export default function ReviewCard({ item }: ReviewCardProps) {
   return (
-    <article className="group rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md md:p-6">
-      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+    <article className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md">
+      {item.thumbnail ? (
+        <div className="relative aspect-[16/9] w-full overflow-hidden border-b border-slate-200 bg-slate-100">
+          <img
+            src={item.thumbnail}
+            alt={`${item.title} thumbnail`}
+            loading="lazy"
+            className="h-full w-full object-cover object-center transition duration-300 group-hover:scale-[1.04]"
+          />
+        </div>
+      ) : null}
+
+      <div className="flex flex-col gap-4 p-5 md:flex-row md:items-start md:justify-between md:p-6">
         <div className="space-y-2 md:max-w-2xl">
           <h3 className="text-lg font-bold tracking-tight text-slate-900">{item.title}</h3>
           <p className="text-sm text-slate-600">{item.description}</p>
