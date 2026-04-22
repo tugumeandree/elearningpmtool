@@ -24,7 +24,7 @@ const baseReviewItems: ReviewItem[] = [
   },
   {
     id: 2,
-    title: "French Localised Animated Video Script (FR)",
+    title: "French Localised Script",
     description: "Travail decent et protection sociale - Version Francaise",
     type: "Script",
     language: "FR",
