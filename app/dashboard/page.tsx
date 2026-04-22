@@ -6,16 +6,18 @@ import TaskFeed from "@/components/TaskFeed"
 import GanttChart from "@/components/GanttChart"
 import ChannelView from "@/components/ChannelView"
 import ReviewCenterPanel from "@/components/ReviewCenterPanel"
+import AnnouncementsPanel from "@/components/AnnouncementsPanel"
 import Toast from "@/components/Toast"
 import { fetchSheet, Task } from "@/lib/fetchSheet"
 
-type Channel = "implementation-timeline" | "milestones" | "module-tracker" | "review-center"
+type Channel = "implementation-timeline" | "milestones" | "module-tracker" | "review-center" | "announcements"
 
 const validChannels: Channel[] = [
   "implementation-timeline",
   "milestones",
   "module-tracker",
-  "review-center"
+  "review-center",
+  "announcements"
 ]
 const statusOptions: Array<"All" | Task["status"]> = [
   "All",
@@ -192,7 +194,7 @@ export default function DashboardPage() {
   }, [selectedAssistedBy, selectedOwner, selectedPhase, selectedStatus, tasks])
 
   const visibleTasks = useMemo(() => {
-    if (channel === "review-center") {
+    if (channel === "review-center" || channel === "announcements") {
       return []
     }
 
@@ -264,8 +266,9 @@ export default function DashboardPage() {
       >
         <ChannelView channel={channel}>
           {channel === "review-center" ? <ReviewCenterPanel showHeader={false} /> : null}
+          {channel === "announcements" ? <AnnouncementsPanel showHeader={false} /> : null}
 
-          {channel !== "review-center" ? (
+          {channel !== "review-center" && channel !== "announcements" ? (
             <>
           <section className="rounded-2xl border border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur sm:p-5">
             <div className="mb-3 flex flex-wrap items-center gap-2">
