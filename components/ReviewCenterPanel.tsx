@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import { Search, Sparkles } from "lucide-react"
 import ReviewCard, { ReviewItem } from "@/components/ReviewCard"
 
-type ReviewFilter = "All" | "Script" | "SME Video" | "Storyboard" | "Audio" | "Animation"
+type ReviewFilter = "All" | "Script" | "SME Video" | "Storyboard" | "Audio" | "Animation" | "Infographics"
 
 const baseReviewItems: ReviewItem[] = [
   {
@@ -80,10 +80,21 @@ const baseReviewItems: ReviewItem[] = [
     thumbnail: "https://placehold.co/1200x675/cffafe/155e75?text=Animations+Review",
     status: "Under Review",
     owner: "Full Team"
+  },
+  {
+    id: 7,
+    title: "Infographics Review",
+    description: "Infographics assets and review-ready drafts",
+    type: "Infographics",
+    language: "EN/FR",
+    link: "https://drive.google.com/drive/folders/11cuaT9dDMEt8Q250IcRoA68IyTIN9Kx2?usp=sharing",
+    thumbnail: "https://placehold.co/1200x675/e0e7ff/3730a3?text=Infographics+Review",
+    status: "Under Review",
+    owner: "Full Team"
   }
 ]
 
-const filterTabs: ReviewFilter[] = ["All", "Script", "SME Video", "Storyboard", "Audio", "Animation"]
+const filterTabs: ReviewFilter[] = ["All", "Script", "SME Video", "Storyboard", "Audio", "Animation", "Infographics"]
 
 const filterTabLabels: Record<ReviewFilter, string> = {
   All: "All",
@@ -91,7 +102,8 @@ const filterTabLabels: Record<ReviewFilter, string> = {
   "SME Video": "SME Videos",
   Storyboard: "Storyboards",
   Audio: "Audio (Voice Over & Music)",
-  Animation: "Animations"
+  Animation: "Animations",
+  Infographics: "Infographics"
 }
 
 interface ReviewCenterPanelProps {
