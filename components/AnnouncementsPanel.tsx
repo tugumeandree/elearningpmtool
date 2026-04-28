@@ -3,14 +3,14 @@ interface AnnouncementsPanelProps {
 }
 
 const filmingDates = [
-  { date: "29 Apr 2026", activity: "SME Video Filming - All Experts", location: "Kigali Studio A" },
-  { date: "29 Apr 2026", activity: "Backup Pickup Slots", location: "Kigali Studio A" }
+  { date: "11 May 2026", activity: "SME Video Filming - All Experts", location: "Kigali Studio A" },
+  { date: "11 May 2026", activity: "Backup Pickup Slots", location: "Kigali Studio A" }
 ]
 
 const voiceOverDates = [
-  { date: "02 May 2026", activity: "French Voice Over Recording - Session 1", studio: "Audio Booth 1" },
-  { date: "03 May 2026", activity: "French Voice Over Recording - Session 2", studio: "Audio Booth 1" },
-  { date: "04 May 2026", activity: "French Voice Over Final Review", studio: "Audio Booth 2" }
+  { date: "2 May 2026", activity: "French Voice Over Recording - Session 1", studio: "Audio Booth 1" },
+  { date: "3 May 2026", activity: "French Voice Over Recording - Session 2", studio: "Audio Booth 1" },
+  { date: "4 May 2026", activity: "French Voice Over Final Review", studio: "Audio Booth 2" }
 ]
 
 const subjectMatterVideos = [
@@ -19,7 +19,7 @@ const subjectMatterVideos = [
     expertNeeded: "DWSP Expert",
     liveVideoTheme: "Course welcome and introduction",
     expertName: "Berivan",
-    filmingSlot: "29 Apr 2026 - 09:00",
+    filmingSlot: "11 May 2026 - 09:00",
     status: "Confirmed"
   },
   {
@@ -27,7 +27,7 @@ const subjectMatterVideos = [
     expertNeeded: "Labour / DWSP Expert",
     liveVideoTheme: "Why decent work matters for youth today",
     expertName: "TBC",
-    filmingSlot: "29 Apr 2026 - 09:45",
+    filmingSlot: "11 May 2026 - 09:45",
     status: "Pending"
   },
   {
@@ -35,7 +35,7 @@ const subjectMatterVideos = [
     expertNeeded: "Labour Law Expert / Ministry / Enabel",
     liveVideoTheme: "Importance of knowing rights; real-world violations; why youth are vulnerable",
     expertName: "TBC",
-    filmingSlot: "29 Apr 2026 - 10:30",
+    filmingSlot: "11 May 2026 - 10:30",
     status: "Pending"
   },
   {
@@ -43,7 +43,7 @@ const subjectMatterVideos = [
     expertNeeded: "Occupational Safety Expert",
     liveVideoTheme: "Why safety matters; common risks for young workers",
     expertName: "TBC",
-    filmingSlot: "29 Apr 2026 - 11:15",
+    filmingSlot: "11 May 2026 - 11:15",
     status: "Pending"
   },
   {
@@ -51,7 +51,7 @@ const subjectMatterVideos = [
     expertNeeded: "Social Protection Specialist (Enabel / Gov)",
     liveVideoTheme: "Why social protection matters; real-life impact",
     expertName: "Lucie",
-    filmingSlot: "29 Apr 2026 - 13:30",
+    filmingSlot: "11 May 2026 - 13:30",
     status: "Confirmed"
   },
   {
@@ -59,7 +59,7 @@ const subjectMatterVideos = [
     expertNeeded: "GBV Expert / Gender Specialist",
     liveVideoTheme: "What GBV looks like; why it happens; why reporting matters",
     expertName: "TBC",
-    filmingSlot: "29 Apr 2026 - 14:15",
+    filmingSlot: "11 May 2026 - 14:15",
     status: "Pending"
   },
   {
@@ -67,7 +67,7 @@ const subjectMatterVideos = [
     expertNeeded: "Reporting Expert / Legal / NGO / Worker Support Org",
     liveVideoTheme: "Where to report; what happens after reporting; encouragement",
     expertName: "TBC",
-    filmingSlot: "29 Apr 2026 - 15:00",
+    filmingSlot: "11 May 2026 - 15:00",
     status: "Pending"
   },
   {
@@ -75,7 +75,7 @@ const subjectMatterVideos = [
     expertNeeded: "Authority",
     liveVideoTheme: "Key takeaway and encouragement",
     expertName: "Berivan",
-    filmingSlot: "29 Apr 2026 - 15:45",
+    filmingSlot: "11 May 2026 - 15:45",
     status: "Confirmed"
   }
 ]
