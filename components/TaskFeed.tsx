@@ -24,7 +24,7 @@ const progressBarClasses: Record<Task["status"], string> = {
 export default function TaskFeed({ tasks, title = "Task Feed" }: TaskFeedProps) {
   return (
     <section className="rounded-2xl border border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur">
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
         <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
         <p className="text-xs text-slate-500">{tasks.length} tasks</p>
       </div>
@@ -39,7 +39,7 @@ export default function TaskFeed({ tasks, title = "Task Feed" }: TaskFeedProps) 
         {tasks.map((task) => (
           <article key={task.taskId || `${task.taskName}-${task.startDate}`} className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <h4 className="text-base font-bold text-slate-900">{task.taskName || "Untitled Task"}</h4>
+              <h4 className="min-w-0 text-base font-bold text-slate-900">{task.taskName || "Untitled Task"}</h4>
               <span className={`rounded-full border px-2 py-1 text-xs font-medium ${statusClasses[task.status]}`}>
                 {task.status}
               </span>

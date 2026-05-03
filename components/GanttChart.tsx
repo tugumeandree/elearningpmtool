@@ -46,8 +46,8 @@ export default function GanttChart({ tasks }: GanttChartProps) {
       <h3 className="mb-4 text-lg font-semibold text-slate-900">Project Gantt (Mar 5 - Mar 31)</h3>
 
       <div className="overflow-x-auto">
-        <div className="min-w-[860px]">
-          <div className="mb-2 ml-44 flex text-[11px] font-medium uppercase tracking-wide text-slate-400">
+        <div className="min-w-[720px] md:min-w-[860px]">
+          <div className="mb-2 ml-36 flex text-[11px] font-medium uppercase tracking-wide text-slate-400 sm:ml-44">
             {weekStarts.map((offset, index) => {
               const weekDate = new Date(timelineStart)
               weekDate.setDate(timelineStart.getDate() + offset)
@@ -61,7 +61,7 @@ export default function GanttChart({ tasks }: GanttChartProps) {
             })}
           </div>
 
-          <div className="mb-3 ml-44 flex border-b border-gray-200 pb-2 text-xs text-slate-500">
+          <div className="mb-3 ml-36 flex border-b border-gray-200 pb-2 text-xs text-slate-500 sm:ml-44">
             {Array.from({ length: totalDays }).map((_, i) => {
               const day = new Date(timelineStart)
               day.setDate(timelineStart.getDate() + i)
@@ -86,7 +86,7 @@ export default function GanttChart({ tasks }: GanttChartProps) {
 
               return (
                 <div key={task.taskId || `${task.taskName}-${task.owner}`} className="flex items-center gap-3 sm:gap-4">
-                  <div className="w-40 shrink-0">
+                  <div className="w-32 shrink-0 sm:w-40">
                     <p className="truncate text-sm font-semibold text-slate-800">{task.taskName || "Untitled Task"}</p>
                     <p className="truncate text-xs text-slate-500">{task.owner || "Unassigned"}</p>
                   </div>

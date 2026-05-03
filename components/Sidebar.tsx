@@ -1,5 +1,6 @@
 "use client"
 
+import { useRef } from "react"
 import Image from "next/image"
 import { Menu, X, KanbanSquare, Flag, ListTodo, MessagesSquare, Megaphone } from "lucide-react"
 
@@ -26,13 +27,15 @@ const consultantLogo =
 const clientLogo = "https://www.enabel.be/app/uploads/2023/04/Enabel_Logo_Color_RGB-1.jpg"
 
 export default function Sidebar({ activeChannel, onChannelSelect, isOpen, onToggle, onClose }: SidebarProps) {
+  const touchStartX = useRef<number | null>(null)
+
   return (
     <>
       <button
         type="button"
         onClick={onToggle}
-        className={`fixed top-4 z-50 rounded-lg border border-slate-700 bg-slate-900 p-2 text-slate-200 shadow-lg transition-[left] duration-300 ${
-          isOpen ? "left-[17rem]" : "left-4"
+        className={`fixed left-3 top-3 z-50 rounded-lg border border-slate-700 bg-slate-900 p-2 text-slate-200 shadow-lg transition-[left] duration-300 md:top-4 ${
+          isOpen ? "md:left-[17rem]" : "md:left-4"
         }`}
         aria-label="Toggle sidebar"
       >
@@ -44,18 +47,34 @@ export default function Sidebar({ activeChannel, onChannelSelect, isOpen, onTogg
           type="button"
           aria-label="Close sidebar overlay"
           onClick={onClose}
-          className="fixed inset-0 z-20 bg-black/30 md:hidden"
+          className="fixed inset-0 z-20 bg-black/30 transition-opacity duration-200 md:hidden"
         />
       ) : null}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-72 border-r border-slate-800 bg-slate-900/95 text-slate-200 backdrop-blur transition-transform duration-300 ${
+        onTouchStart={(event) => {
+          touchStartX.current = event.touches[0]?.clientX ?? null
+        }}
+        onTouchEnd={(event) => {
+          const startX = touchStartX.current
+          const endX = event.changedTouches[0]?.clientX
+          touchStartX.current = null
+
+          if (!isOpen || startX === null || endX === undefined) {
+            return
+          }
+
+          if (startX - endX > 60) {
+            onClose()
+          }
+        }}
+        className={`fixed inset-y-0 left-0 z-40 w-[86vw] max-w-72 border-r border-slate-800 bg-slate-900/95 text-slate-200 backdrop-blur transition-transform duration-300 ease-out md:w-72 ${
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <div className="border-b border-slate-800 px-5 py-4">
+        <div className="border-b border-slate-800 px-4 py-4 md:px-5">
           <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Workspace</p>
-          <h1 className="mt-2 text-lg font-semibold leading-tight">Decent Work &amp; Social Protection (DWSP) Project Dashboard (EN + FR)</h1>
+          <h1 className="mt-2 text-base font-semibold leading-tight md:text-lg">Decent Work &amp; Social Protection (DWSP) Project Dashboard (EN + FR)</h1>
           <p className="mt-2 text-xs text-slate-400">Contract Reference: UGA21003_A050401</p>
         </div>
 
@@ -71,7 +90,7 @@ export default function Sidebar({ activeChannel, onChannelSelect, isOpen, onTogg
                   onChannelSelect(channel.id)
                   onClose()
                 }}
-                className={`mb-1 flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition ${
+                className={`mb-1 flex w-full items-center gap-2 rounded-md px-3 py-2.5 text-left text-[15px] transition md:py-2 md:text-sm ${
                   active ? "bg-slate-700 text-white" : "text-slate-300 hover:bg-slate-800"
                 }`}
               >

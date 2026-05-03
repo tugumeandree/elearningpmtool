@@ -6,6 +6,29 @@ import ReviewCard, { ReviewItem } from "@/components/ReviewCard"
 
 type ReviewFilter = "All" | "Script" | "SME Video" | "Storyboard" | "Audio" | "Animation" | "Infographics"
 
+const moduleLabels = ["Module 0", "Module 1", "Module 2", "Module 3", "Module 4", "Module 5", "Module 6", "Module z"]
+
+const moduleOverrides: Record<string, string> = {
+  "Module 0": "https://drive.google.com/drive/folders/1fKpSlyefkhKP2Wz3SqTDbIrFaabPwJXz?usp=sharing",
+  "Module 1": "https://drive.google.com/drive/folders/1lWdRFzZYxJHmuz9o6l5SYdd-Y8G8dYIN?usp=sharing"
+}
+
+function buildModuleFolders(defaultLink: string) {
+  return moduleLabels.map((label) => ({
+    label,
+    link: moduleOverrides[label] ?? defaultLink
+  }))
+}
+
+function buildInfographicsModuleFolders(defaultLink: string) {
+  return [
+    {
+      label: "Module 1",
+      link: "https://drive.google.com/drive/folders/1yiK2ZO4nfj5k7VAOvwJtMgYCSH_cOB1I?usp=sharing"
+    }
+  ]
+}
+
 const baseReviewItems: ReviewItem[] = [
   {
     id: 1,
@@ -23,19 +46,81 @@ const baseReviewItems: ReviewItem[] = [
     owner: "Berivan"
   },
   {
-    id: 2,
-    title: "French Localised Script",
-    description: "Travail decent et protection sociale - Version Francaise",
-    type: "Script",
-    language: "FR",
-    link: "https://docs.google.com/presentation/d/1KVmFsXjK3he1zXNsKZcRByLLo5ZaXfpT/edit",
-    thumbnail:
-      "https://res.cloudinary.com/dwa3soopc/image/upload/v1776849096/Enabel/French_Thumbnail_1_tpfvfj.png",
-    feedbackLink:
-      "https://docs.google.com/spreadsheets/d/1PVL-Aie9TXKTeuB_8ATqk6k6X-c42649IsIReIzxDJk/edit?gid=188733276#gid=188733276",
-    feedbackLabel: "Submit Feedback",
+    id: 4,
+    title: "Pilot Storyboard",
+    description: "Module 0 & 1 Storyboards",
+    type: "Storyboard",
+    language: "EN/FR",
+    link: "https://drive.google.com/drive/folders/1MIkPchrSMkEC97HrY6LD5_In9-6ef2kx",
+    moduleFolders: [
+      {
+        label: "Module 0",
+        link: "https://drive.google.com/drive/folders/1nmnPGiBV4jFcla-PcfVIQ_kXA6Sp6133?usp=sharing"
+      },
+      {
+        label: "Module 1",
+        link: "https://drive.google.com/drive/folders/1nmnPGiBV4jFcla-PcfVIQ_kXA6Sp6133?usp=sharing"
+      }
+    ],
+    thumbnail: "https://placehold.co/1200x675/fce7f3/831843?text=Storyboard+Review",
     status: "Under Review",
-    owner: "Lucie"
+    owner: "Full Team"
+  },
+  {
+    id: 5,
+    title: "Audio (Voice Over & Music) Review",
+    description: "Voice over and music files (EN + FR)",
+    type: "Audio",
+    language: "EN/FR",
+    link: "https://drive.google.com/drive/folders/11o1KcQA5ImFrMgUDe_MhI-ecvrzJzAUq?usp=sharing",
+    moduleFolders: [
+      {
+        label: "Module 0",
+        link: moduleOverrides["Module 0"]
+      },
+      {
+        label: "Module 1",
+        link: moduleOverrides["Module 1"]
+      }
+    ],
+    thumbnail: "https://placehold.co/1200x675/dcfce7/14532d?text=Audio+Review",
+    status: "Under Review",
+    owner: "Full Team"
+  },
+  {
+    id: 6,
+    title: "Animations Review",
+    description: "Animation assets and draft renders",
+    type: "Animation",
+    language: "EN/FR",
+    link: "https://drive.google.com/drive/folders/1whLNSDEzDOoInRSl25j3T8mX5zyEQcUp?usp=sharing",
+    moduleFolders: [
+      {
+        label: "Module 0",
+        link: moduleOverrides["Module 0"]
+      },
+      {
+        label: "Module 1",
+        link: moduleOverrides["Module 1"]
+      }
+    ],
+    thumbnail: "https://placehold.co/1200x675/cffafe/155e75?text=Animations+Review",
+    status: "Under Review",
+    owner: "Full Team"
+  },
+  {
+    id: 7,
+    title: "Infographics Review",
+    description: "Infographics assets and review-ready drafts",
+    type: "Infographics",
+    language: "EN/FR",
+    link: "https://drive.google.com/drive/folders/11cuaT9dDMEt8Q250IcRoA68IyTIN9Kx2?usp=sharing",
+    moduleFolders: buildInfographicsModuleFolders(
+      "https://drive.google.com/drive/folders/11cuaT9dDMEt8Q250IcRoA68IyTIN9Kx2?usp=sharing"
+    ),
+    thumbnail: "https://placehold.co/1200x675/e0e7ff/3730a3?text=Infographics+Review",
+    status: "Under Review",
+    owner: "Full Team"
   },
   {
     id: 3,
@@ -49,48 +134,19 @@ const baseReviewItems: ReviewItem[] = [
     owner: "Enabel Team"
   },
   {
-    id: 4,
-    title: "Pilot Storyboard",
-    description: "Module 0 & 1 Storyboards",
-    type: "Storyboard",
-    language: "EN/FR",
-    link: "https://drive.google.com/drive/folders/1MIkPchrSMkEC97HrY6LD5_In9-6ef2kx",
-    thumbnail: "https://placehold.co/1200x675/fce7f3/831843?text=Storyboard+Review",
+    id: 2,
+    title: "French Localised Script",
+    description: "Travail decent et protection sociale - Version Francaise",
+    type: "Script",
+    language: "FR",
+    link: "https://docs.google.com/presentation/d/1KVmFsXjK3he1zXNsKZcRByLLo5ZaXfpT/edit",
+    thumbnail:
+      "https://res.cloudinary.com/dwa3soopc/image/upload/v1776849096/Enabel/French_Thumbnail_1_tpfvfj.png",
+    feedbackLink:
+      "https://docs.google.com/spreadsheets/d/1PVL-Aie9TXKTeuB_8ATqk6k6X-c42649IsIReIzxDJk/edit?gid=188733276#gid=188733276",
+    feedbackLabel: "Submit Feedback",
     status: "Under Review",
-    owner: "Full Team"
-  },
-  {
-    id: 5,
-    title: "Audio (Voice Over & Music) Review",
-    description: "Voice over and music files (EN + FR)",
-    type: "Audio",
-    language: "EN/FR",
-    link: "https://drive.google.com/drive/folders/11o1KcQA5ImFrMgUDe_MhI-ecvrzJzAUq?usp=sharing",
-    thumbnail: "https://placehold.co/1200x675/dcfce7/14532d?text=Audio+Review",
-    status: "Under Review",
-    owner: "Full Team"
-  },
-  {
-    id: 6,
-    title: "Animations Review",
-    description: "Animation assets and draft renders",
-    type: "Animation",
-    language: "EN/FR",
-    link: "https://drive.google.com/drive/folders/1whLNSDEzDOoInRSl25j3T8mX5zyEQcUp?usp=sharing",
-    thumbnail: "https://placehold.co/1200x675/cffafe/155e75?text=Animations+Review",
-    status: "Under Review",
-    owner: "Full Team"
-  },
-  {
-    id: 7,
-    title: "Infographics Review",
-    description: "Infographics assets and review-ready drafts",
-    type: "Infographics",
-    language: "EN/FR",
-    link: "https://drive.google.com/drive/folders/11cuaT9dDMEt8Q250IcRoA68IyTIN9Kx2?usp=sharing",
-    thumbnail: "https://placehold.co/1200x675/e0e7ff/3730a3?text=Infographics+Review",
-    status: "Under Review",
-    owner: "Full Team"
+    owner: "Lucie"
   }
 ]
 
@@ -155,11 +211,11 @@ export default function ReviewCenterPanel({ showHeader = true }: ReviewCenterPan
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
               placeholder="Search by title"
-              className="w-full rounded-lg border border-slate-300 bg-slate-50/70 py-2 pl-9 pr-3 text-sm text-slate-800 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none"
+              className="w-full rounded-lg border border-slate-300 bg-slate-50/70 py-2.5 pl-9 pr-3 text-base text-slate-800 placeholder:text-slate-400 focus:border-blue-500 focus:bg-white focus:outline-none sm:text-sm"
             />
           </div>
 
-          <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+          <div className="-mx-1 flex snap-x snap-mandatory gap-2 overflow-x-auto px-1 pb-1">
             {filterTabs.map((tab) => {
               const active = tab === activeFilter
               return (
@@ -167,7 +223,7 @@ export default function ReviewCenterPanel({ showHeader = true }: ReviewCenterPan
                   key={tab}
                   type="button"
                   onClick={() => setActiveFilter(tab)}
-                  className={`shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
+                  className={`shrink-0 snap-start rounded-full border px-3 py-2 text-sm font-semibold transition sm:py-1.5 sm:text-xs ${
                     active
                       ? "border-slate-900 bg-slate-900 text-white shadow-sm"
                       : "border-slate-300 bg-white text-slate-600 hover:border-slate-500 hover:text-slate-800"
@@ -195,7 +251,7 @@ export default function ReviewCenterPanel({ showHeader = true }: ReviewCenterPan
             {filteredItems.map((item, index) => (
               <div
                 key={item.id}
-                className={`transition-all duration-300 ${mounted ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
+                className={`relative transition-all duration-300 focus-within:z-30 hover:z-20 ${mounted ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"}`}
                 style={{ transitionDelay: `${index * 50}ms` }}
               >
                 <ReviewCard item={item} />

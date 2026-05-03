@@ -15,3 +15,21 @@ body {
     #f8fafc;
   color: #111827;
 }
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+[role="button"] {
+  touch-action: manipulation;
+}
+
+@media (max-width: 640px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}

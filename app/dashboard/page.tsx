@@ -28,10 +28,19 @@ const statusOptions: Array<"All" | Task["status"]> = [
   "Completed"
 ]
 
+const mobileChannelLabels: Record<Channel, string> = {
+  "implementation-timeline": "Implementation Timeline",
+  milestones: "Milestones",
+  "module-tracker": "Module Tracker",
+  "review-center": "Review Center",
+  announcements: "Announcements"
+}
+
 export default function DashboardPage() {
   const didInitFromQuery = useRef(false)
 
   const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [mobileHeaderElevated, setMobileHeaderElevated] = useState(false)
   const [channel, setChannel] = useState<Channel>("implementation-timeline")
   const [tasks, setTasks] = useState<Task[]>([])
   const [selectedOwner, setSelectedOwner] = useState<string>("All")
@@ -44,6 +53,25 @@ export default function DashboardPage() {
   const [toastVisible, setToastVisible] = useState(false)
   const [toastMessage, setToastMessage] = useState("")
   const [toastVariant, setToastVariant] = useState<"success" | "error">("success")
+
+  useEffect(() => {
+    if (window.innerWidth < 768) {
+      setSidebarOpen(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setMobileHeaderElevated(window.scrollY > 8)
+    }
+
+    handleScroll()
+    window.addEventListener("scroll", handleScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }, [])
 
   useEffect(() => {
     let alive = true
@@ -260,10 +288,30 @@ export default function DashboardPage() {
       />
 
       <main
-        className={`px-4 pb-8 pt-16 transition-[margin] duration-300 md:px-8 md:pt-8 ${
+        className={`px-3 pb-[calc(2rem+env(safe-area-inset-bottom))] pt-20 transition-[margin] duration-300 sm:px-4 md:px-8 md:pt-8 ${
           sidebarOpen ? "md:ml-72" : "md:ml-0"
         }`}
       >
+        <section
+          className={`sticky top-2 z-20 mb-4 rounded-xl border border-slate-200 bg-white/95 px-3 py-2 backdrop-blur transition-all duration-200 md:hidden ${
+            mobileHeaderElevated ? "shadow-md" : "shadow-sm"
+          }`}
+        >
+          <div className="flex items-center justify-between gap-2">
+            <div>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">Channel</p>
+              <p className="text-sm font-semibold text-slate-900">{mobileChannelLabels[channel]}</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setSidebarOpen(true)}
+              className="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-700"
+            >
+              Open Channels
+            </button>
+          </div>
+        </section>
+
         <ChannelView channel={channel}>
           {channel === "review-center" ? <ReviewCenterPanel showHeader={false} /> : null}
           {channel === "announcements" ? <AnnouncementsPanel showHeader={false} /> : null}
@@ -271,7 +319,7 @@ export default function DashboardPage() {
           {channel !== "review-center" && channel !== "announcements" ? (
             <>
           <section className="rounded-2xl border border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur sm:p-5">
-            <div className="mb-3 flex flex-wrap items-center gap-2">
+            <div className="-mx-1 mb-3 flex gap-2 overflow-x-auto px-1 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0 sm:pb-0">
               {statusOptions.map((status) => {
                 const active = status === selectedStatus
                 return (
@@ -279,7 +327,7 @@ export default function DashboardPage() {
                     key={status}
                     type="button"
                     onClick={() => setSelectedStatus(status)}
-                    className={`rounded-full border px-3 py-1 text-xs font-semibold transition ${
+                    className={`shrink-0 rounded-full border px-3 py-2 text-sm font-semibold transition sm:py-1 sm:text-xs ${
                       active
                         ? "border-slate-900 bg-slate-900 text-white"
                         : "border-slate-300 bg-white text-slate-600 hover:border-slate-500"
@@ -291,7 +339,7 @@ export default function DashboardPage() {
               })}
             </div>
 
-            <div className="grid gap-3 md:grid-cols-3">
+            <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
               <label className="text-sm text-slate-600">
                 Owner
                 <select
@@ -338,8 +386,8 @@ export default function DashboardPage() {
               </label>
             </div>
 
-            <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-xs text-slate-500">
+            <div className="sticky bottom-2 z-10 -mx-2 mt-4 flex translate-y-0 flex-col gap-3 rounded-lg bg-white/95 p-2 shadow-sm backdrop-blur transition-all duration-200 sm:static sm:mx-0 sm:rounded-none sm:bg-transparent sm:p-0 sm:shadow-none sm:backdrop-blur-0 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-xs text-slate-500 break-words">
                 Active filters: owner {selectedOwner}, assisted by {selectedAssistedBy}, phase {selectedPhase}, status {selectedStatus}
               </p>
               <div className="flex flex-wrap items-center gap-2">
@@ -353,7 +401,7 @@ export default function DashboardPage() {
                       showToast("Unable to copy link", "error")
                     }
                   }}
-                  className="rounded-md border border-slate-300 bg-white px-3 py-1 text-xs font-medium text-slate-600 hover:bg-slate-50"
+                  className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 sm:py-1 sm:text-xs"
                 >
                   Copy Share Link
                 </button>
@@ -366,7 +414,7 @@ export default function DashboardPage() {
                     setSelectedPhase("All")
                     setSelectedStatus("All")
                   }}
-                  className="rounded-md border border-slate-300 bg-white px-3 py-1 text-xs font-medium text-slate-600 hover:bg-slate-50"
+                  className="rounded-md border border-slate-300 bg-white px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 sm:py-1 sm:text-xs"
                 >
                   Reset Filters
                 </button>
@@ -374,7 +422,7 @@ export default function DashboardPage() {
             </div>
           </section>
 
-          <div className="grid gap-3 sm:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             <article className="rounded-2xl border border-slate-200/70 bg-white/90 p-4 shadow-sm backdrop-blur">
               <p className="text-xs uppercase tracking-wide text-slate-500">Completion</p>
               <p className="mt-2 text-2xl font-semibold text-slate-900">{completedCount}/{filteredTasks.length}</p>
@@ -411,7 +459,7 @@ export default function DashboardPage() {
                     <div className="space-y-3">
                       {visibleTasks.map((task) => (
                         <div key={task.taskId || task.taskName} className="rounded-md border border-gray-200 p-3">
-                          <div className="flex items-center justify-between gap-3">
+                          <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
                             <p className="text-sm font-semibold text-slate-800">{task.taskName}</p>
                             <span className="text-xs text-slate-500">{task.endDate || "No due date"}</span>
                           </div>
@@ -430,7 +478,7 @@ export default function DashboardPage() {
                   <section className="rounded-lg border border-gray-200 bg-white p-5">
                     <h3 className="mb-4 text-lg font-semibold text-slate-900">Owner Workload</h3>
                     <div className="overflow-x-auto">
-                      <table className="min-w-full border-collapse text-sm">
+                      <table className="min-w-[36rem] border-collapse text-sm sm:min-w-full">
                         <thead>
                           <tr className="border-b border-gray-200 text-left text-xs uppercase tracking-wide text-slate-500">
                             <th className="px-2 py-2">Owner</th>

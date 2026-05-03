@@ -134,7 +134,30 @@ export default function AnnouncementsPanel({ showHeader = true }: AnnouncementsP
           <p className="mt-1 text-sm text-slate-500">Module coverage, expert profile required, and assigned names</p>
         </div>
 
-        <div className="overflow-x-auto">
+        <div className="space-y-3 md:hidden">
+          {subjectMatterVideos.map((video) => (
+            <article key={video.module} className="rounded-xl border border-slate-200 bg-slate-50 p-3">
+              <p className="text-sm font-semibold text-slate-900">{video.module}</p>
+              <p className="mt-2 text-xs text-slate-500">Expert Needed</p>
+              <p className="text-sm text-slate-700">{video.expertNeeded}</p>
+              <p className="mt-2 text-xs text-slate-500">Live Theme</p>
+              <p className="text-sm text-slate-700">{video.liveVideoTheme}</p>
+              <div className="mt-3 grid grid-cols-2 gap-2 text-sm text-slate-700">
+                <p>
+                  <span className="text-xs text-slate-500">Expert:</span> {video.expertName}
+                </p>
+                <p>
+                  <span className="text-xs text-slate-500">Status:</span> {video.status}
+                </p>
+              </div>
+              <p className="mt-2 text-sm text-slate-700">
+                <span className="text-xs text-slate-500">Filming Slot:</span> {video.filmingSlot}
+              </p>
+            </article>
+          ))}
+        </div>
+
+        <div className="hidden overflow-x-auto md:block">
           <table className="min-w-full border-collapse text-sm">
             <thead>
               <tr className="border-b border-slate-200 text-left text-xs uppercase tracking-wide text-slate-500">
