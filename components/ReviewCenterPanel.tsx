@@ -31,6 +31,21 @@ function buildInfographicsModuleFolders(defaultLink: string) {
 
 const baseReviewItems: ReviewItem[] = [
   {
+    id: 2,
+    title: "French Localised Script",
+    description: "Travail decent et protection sociale - Version Francaise",
+    type: "Script",
+    language: "FR",
+    link: "https://docs.google.com/presentation/d/1KVmFsXjK3he1zXNsKZcRByLLo5ZaXfpT/edit",
+    thumbnail:
+      "https://res.cloudinary.com/dwa3soopc/image/upload/v1776849096/Enabel/French_Thumbnail_1_tpfvfj.png",
+    feedbackLink:
+      "https://docs.google.com/spreadsheets/d/1PVL-Aie9TXKTeuB_8ATqk6k6X-c42649IsIReIzxDJk/edit?gid=188733276#gid=188733276",
+    feedbackLabel: "Submit Feedback",
+    status: "Under Review",
+    owner: "Lucie"
+  },
+  {
     id: 1,
     title: "Animated Video Script (EN)",
     description: "Decent Work & Social Protection - English Version",
@@ -132,21 +147,6 @@ const baseReviewItems: ReviewItem[] = [
     thumbnail: "https://placehold.co/1200x675/e2e8f0/334155?text=SME+Video+Review",
     status: "Under Review",
     owner: "Enabel Team"
-  },
-  {
-    id: 2,
-    title: "French Localised Script",
-    description: "Travail decent et protection sociale - Version Francaise",
-    type: "Script",
-    language: "FR",
-    link: "https://docs.google.com/presentation/d/1KVmFsXjK3he1zXNsKZcRByLLo5ZaXfpT/edit",
-    thumbnail:
-      "https://res.cloudinary.com/dwa3soopc/image/upload/v1776849096/Enabel/French_Thumbnail_1_tpfvfj.png",
-    feedbackLink:
-      "https://docs.google.com/spreadsheets/d/1PVL-Aie9TXKTeuB_8ATqk6k6X-c42649IsIReIzxDJk/edit?gid=188733276#gid=188733276",
-    feedbackLabel: "Submit Feedback",
-    status: "Under Review",
-    owner: "Lucie"
   }
 ]
 
