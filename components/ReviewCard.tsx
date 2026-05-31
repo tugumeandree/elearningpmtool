@@ -9,12 +9,13 @@ export interface ReviewItem {
   id: number
   title: string
   description: string
-  type: "Script" | "SME Video" | "Storyboard" | "Audio" | "Animation" | "Infographics"
+  type: "Script" | "SME Video" | "Storyboard" | "Audio" | "Animation" | "Infographics" | "Validation"
   language: "EN" | "FR" | "EN/FR"
   link: string
   thumbnail?: string
   feedbackLink?: string
   feedbackLabel?: string
+  openLabel?: string
   moduleFolders?: Array<{ label: string; link: string }>
   status: ReviewStatus
   owner: string
@@ -36,7 +37,8 @@ const typeStyles: Record<ReviewItem["type"], string> = {
   Storyboard: "border-fuchsia-200 bg-fuchsia-50 text-fuchsia-700",
   Audio: "border-emerald-200 bg-emerald-50 text-emerald-700",
   Animation: "border-cyan-200 bg-cyan-50 text-cyan-700",
-  Infographics: "border-indigo-200 bg-indigo-50 text-indigo-700"
+  Infographics: "border-indigo-200 bg-indigo-50 text-indigo-700",
+  Validation: "border-amber-200 bg-amber-50 text-amber-700"
 }
 
 const languageStyles: Record<ReviewItem["language"], string> = {
@@ -192,7 +194,7 @@ export default function ReviewCard({ item }: ReviewCardProps) {
                   rel="noreferrer"
                   className="inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-blue-600 px-3 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 hover:shadow-sm"
                 >
-                  Open Document
+                  {item.openLabel ?? "Open Document"}
                   <ExternalLink className="h-4 w-4" />
                 </a>
               )}

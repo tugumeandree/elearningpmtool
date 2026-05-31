@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react"
 import { Search, Sparkles } from "lucide-react"
 import ReviewCard, { ReviewItem } from "@/components/ReviewCard"
 
-type ReviewFilter = "All" | "Script" | "SME Video" | "Storyboard" | "Audio" | "Animation" | "Infographics"
+type ReviewFilter = "All" | "Script" | "SME Video" | "Storyboard" | "Audio" | "Animation" | "Infographics" | "Validation"
 
 const moduleLabels = ["Module 0", "Module 1", "Module 2", "Module 3", "Module 4", "Module 5", "Module 6", "Module z"]
 
@@ -44,6 +44,19 @@ const baseReviewItems: ReviewItem[] = [
     feedbackLabel: "Submit Feedback",
     status: "Under Review",
     owner: "Lucie"
+  },
+  {
+    id: 8,
+    title: "Youth Pre-testing & Validation",
+    description:
+      "Youth pre-testing model validation (EN) — choose guest access on the model login page while testing.",
+    type: "Validation",
+    language: "EN",
+    link: "https://ulearn.enabel.be/course/view.php?id=37",
+    openLabel: "Open Enabel LMS",
+    thumbnail: "https://placehold.co/1200x675/eff6ff/1d4ed8?text=Youth+Pre-testing",
+    status: "Under Review",
+    owner: "Field Testing"
   },
   {
     id: 1,
@@ -150,7 +163,7 @@ const baseReviewItems: ReviewItem[] = [
   }
 ]
 
-const filterTabs: ReviewFilter[] = ["All", "Script", "SME Video", "Storyboard", "Audio", "Animation", "Infographics"]
+const filterTabs: ReviewFilter[] = ["All", "Script", "SME Video", "Storyboard", "Audio", "Animation", "Infographics", "Validation"]
 
 const filterTabLabels: Record<ReviewFilter, string> = {
   All: "All",
@@ -159,7 +172,8 @@ const filterTabLabels: Record<ReviewFilter, string> = {
   Storyboard: "Storyboards",
   Audio: "Audio (Voice Over & Music)",
   Animation: "Animations",
-  Infographics: "Infographics"
+  Infographics: "Infographics",
+  Validation: "Validation"
 }
 
 interface ReviewCenterPanelProps {
