@@ -1,10 +1,9 @@
 "use client"
 
-import { useRef } from "react"
+import { useRef, useState } from "react"
 import Image from "next/image"
 import { Menu, X, KanbanSquare, Flag, ListTodo, MessagesSquare, Megaphone } from "lucide-react"
-
-type Channel = "implementation-timeline" | "milestones" | "module-tracker" | "review-center" | "announcements"
+import { Channel } from "@/lib/types"
 
 interface SidebarProps {
   activeChannel: Channel
@@ -25,6 +24,37 @@ const channels: Array<{ id: Channel; label: string; icon: React.ComponentType<{ 
 const consultantLogo =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRC6LEPGPBUreszQVjTZBmfTZ8CvmBfiK86_g&s"
 const clientLogo = "https://www.enabel.be/app/uploads/2023/04/Enabel_Logo_Color_RGB-1.jpg"
+
+function SafeImage({
+  src,
+  alt,
+  fallbackText,
+  width,
+  height,
+  className
+}: {
+  src: string
+  alt: string
+  fallbackText: string
+  width: number
+  height: number
+  className: string
+}) {
+  const [failed, setFailed] = useState(false)
+  if (failed) {
+    return <span className="text-[10px] font-semibold text-slate-300">{fallbackText}</span>
+  }
+  return (
+    <Image
+      src={src}
+      alt={alt}
+      width={width}
+      height={height}
+      className={className}
+      onError={() => setFailed(true)}
+    />
+  )
+}
 
 export default function Sidebar({ activeChannel, onChannelSelect, isOpen, onToggle, onClose }: SidebarProps) {
   const touchStartX = useRef<number | null>(null)
@@ -106,9 +136,10 @@ export default function Sidebar({ activeChannel, onChannelSelect, isOpen, onTogg
             <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-2">
               <p className="mb-1 text-[9px] uppercase tracking-[0.14em] text-slate-400">Consultant</p>
               <div className="rounded bg-white p-1.5">
-                <Image
+                <SafeImage
                   src={consultantLogo}
                   alt="Project manager and consultant logo"
+                  fallbackText="Consultant"
                   width={180}
                   height={60}
                   className="h-7 w-full object-contain"
@@ -119,9 +150,10 @@ export default function Sidebar({ activeChannel, onChannelSelect, isOpen, onTogg
             <div className="rounded-lg border border-slate-700 bg-slate-800/60 p-2">
               <p className="mb-1 text-[9px] uppercase tracking-[0.14em] text-slate-400">Client</p>
               <div className="rounded bg-white p-1.5">
-                <Image
+                <SafeImage
                   src={clientLogo}
                   alt="Enabel client logo"
+                  fallbackText="Enabel"
                   width={180}
                   height={60}
                   className="h-7 w-full object-contain"

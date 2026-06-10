@@ -1,14 +1,11 @@
-import { differenceInCalendarDays, format, max, min, parseISO } from "date-fns"
+"use client"
+
+import { differenceInCalendarDays, endOfMonth, format, max, min, parseISO, startOfMonth } from "date-fns"
 import { Task } from "@/lib/fetchSheet"
 
 interface GanttChartProps {
   tasks: Task[]
 }
-
-const timelineStart = new Date(2026, 2, 5)
-const timelineEnd = new Date(2026, 2, 31)
-const totalDays = differenceInCalendarDays(timelineEnd, timelineStart) + 1
-const totalDuration = differenceInCalendarDays(timelineEnd, timelineStart)
 
 const statusClasses: Record<Task["status"], string> = {
   Completed: "bg-green-500",
@@ -18,32 +15,43 @@ const statusClasses: Record<Task["status"], string> = {
   "Not Started": "bg-gray-500"
 }
 
-function safeParse(dateStr: string): Date {
-  const isoParsed = parseISO(dateStr)
-  if (!Number.isNaN(isoParsed.getTime())) return isoParsed
-
-  const slashDate = dateStr.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/)
-  if (slashDate) {
-    const month = Number.parseInt(slashDate[1], 10)
-    const day = Number.parseInt(slashDate[2], 10)
-    const year = Number.parseInt(slashDate[3], 10)
-    const parsed = new Date(year, month - 1, day)
-    if (!Number.isNaN(parsed.getTime())) return parsed
-  }
-
-  return timelineStart
+function safeParse(dateStr: string): Date | null {
+  if (!dateStr) return null
+  const parsed = parseISO(dateStr)
+  return Number.isNaN(parsed.getTime()) ? null : parsed
 }
 
 export default function GanttChart({ tasks }: GanttChartProps) {
   const now = new Date()
+
+  const taskDates: Date[] = []
+  for (const task of tasks) {
+    const s = task.startDate ? safeParse(task.startDate) : null
+    const e = task.endDate ? safeParse(task.endDate) : null
+    if (s) taskDates.push(s)
+    if (e) taskDates.push(e)
+  }
+
+  const timelineStart = taskDates.length > 0 ? min(taskDates) : startOfMonth(now)
+  const timelineEnd = taskDates.length > 0 ? max(taskDates) : endOfMonth(now)
+
+  const totalDays = differenceInCalendarDays(timelineEnd, timelineStart) + 1
+  const totalDuration = differenceInCalendarDays(timelineEnd, timelineStart)
+
   const todayOffset = differenceInCalendarDays(now, timelineStart)
   const todayInRange = todayOffset >= 0 && todayOffset <= totalDuration
   const todayPercent = (Math.max(0, Math.min(totalDuration, todayOffset)) / totalDays) * 100
-  const weekStarts = [0, 7, 14, 21]
+
+  const weekStarts = Array.from(
+    { length: Math.ceil(totalDays / 7) },
+    (_, i) => i * 7
+  ).filter((offset) => offset < totalDays)
+
+  const title = `Project Gantt (${format(timelineStart, "MMM d")} – ${format(timelineEnd, "MMM d, yyyy")})`
 
   return (
     <section className="rounded-2xl border border-slate-200/70 bg-white/90 p-5 shadow-sm backdrop-blur">
-      <h3 className="mb-4 text-lg font-semibold text-slate-900">Project Gantt (Mar 5 - Mar 31)</h3>
+      <h3 className="mb-4 text-lg font-semibold text-slate-900">{title}</h3>
 
       <div className="overflow-x-auto">
         <div className="min-w-[720px] md:min-w-[860px]">
@@ -75,10 +83,12 @@ export default function GanttChart({ tasks }: GanttChartProps) {
 
           <div className="space-y-3">
             {tasks.map((task) => {
-              const startDate = safeParse(task.startDate)
-              const endDate = safeParse(task.endDate)
-              const clampedStart = max([startDate, timelineStart])
-              const clampedEnd = min([endDate, timelineEnd])
+              const startDate = task.startDate ? safeParse(task.startDate) : null
+              const endDate = task.endDate ? safeParse(task.endDate) : null
+
+              const clampedStart = startDate ? max([startDate, timelineStart]) : timelineStart
+              const clampedEnd = endDate ? min([endDate, timelineEnd]) : timelineEnd
+
               const startOffset = Math.max(0, differenceInCalendarDays(clampedStart, timelineStart))
               const barDays = Math.max(1, differenceInCalendarDays(clampedEnd, clampedStart) + 1)
               const leftPercent = (startOffset / totalDays) * 100

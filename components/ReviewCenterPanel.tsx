@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { Search, Sparkles } from "lucide-react"
+import { Search } from "lucide-react"
 import ReviewCard, { ReviewItem } from "@/components/ReviewCard"
 
 type ReviewFilter = "All" | "Script" | "SME Video" | "Storyboard" | "Audio" | "Animation" | "Infographics" | "Validation"
@@ -20,16 +20,32 @@ function buildModuleFolders(defaultLink: string) {
   }))
 }
 
-function buildInfographicsModuleFolders(defaultLink: string) {
-  return [
-    {
-      label: "Module 1",
-      link: "https://drive.google.com/drive/folders/1yiK2ZO4nfj5k7VAOvwJtMgYCSH_cOB1I?usp=sharing"
-    }
-  ]
-}
 
 const baseReviewItems: ReviewItem[] = [
+  {
+    id: 8,
+    title: "Youth Pre-testing & Validation",
+    description:
+      "Youth pre-testing model validation (EN) — choose guest access on the model login page while testing.",
+    type: "Validation",
+    language: "EN",
+    link: "https://ulearn.enabel.be/course/view.php?id=37",
+    openLabel: "Open Enabel LMS",
+    thumbnail: "https://eloncdn.blob.core.windows.net/eu3/sites/74/2025/04/moodle-image.jpg",
+    status: "Under Review",
+    owner: "Field Testing"
+  },
+  {
+    id: 7,
+    title: "Infographics Review",
+    description: "Infographics assets and review-ready drafts",
+    type: "Infographics",
+    language: "EN/FR",
+    link: "https://drive.google.com/drive/folders/11cuaT9dDMEt8Q250IcRoA68IyTIN9Kx2?usp=sharing",
+    thumbnail: "https://placehold.co/1200x675/e0e7ff/3730a3?text=Infographics+Review",
+    status: "Under Review",
+    owner: "Full Team"
+  },
   {
     id: 2,
     title: "French Localised Script",
@@ -44,19 +60,6 @@ const baseReviewItems: ReviewItem[] = [
     feedbackLabel: "Submit Feedback",
     status: "Under Review",
     owner: "Lucie"
-  },
-  {
-    id: 8,
-    title: "Youth Pre-testing & Validation",
-    description:
-      "Youth pre-testing model validation (EN) — choose guest access on the model login page while testing.",
-    type: "Validation",
-    language: "EN",
-    link: "https://ulearn.enabel.be/course/view.php?id=37",
-    openLabel: "Open Enabel LMS",
-    thumbnail: "https://placehold.co/1200x675/eff6ff/1d4ed8?text=Youth+Pre-testing",
-    status: "Under Review",
-    owner: "Field Testing"
   },
   {
     id: 1,
@@ -137,20 +140,6 @@ const baseReviewItems: ReviewItem[] = [
     owner: "Full Team"
   },
   {
-    id: 7,
-    title: "Infographics Review",
-    description: "Infographics assets and review-ready drafts",
-    type: "Infographics",
-    language: "EN/FR",
-    link: "https://drive.google.com/drive/folders/11cuaT9dDMEt8Q250IcRoA68IyTIN9Kx2?usp=sharing",
-    moduleFolders: buildInfographicsModuleFolders(
-      "https://drive.google.com/drive/folders/11cuaT9dDMEt8Q250IcRoA68IyTIN9Kx2?usp=sharing"
-    ),
-    thumbnail: "https://placehold.co/1200x675/e0e7ff/3730a3?text=Infographics+Review",
-    status: "Under Review",
-    owner: "Full Team"
-  },
-  {
     id: 3,
     title: "SME Video Interview Questions",
     description: "Live Subject Matter Expert Scripts (EN + FR)",
@@ -181,31 +170,21 @@ interface ReviewCenterPanelProps {
 }
 
 export default function ReviewCenterPanel({ showHeader = true }: ReviewCenterPanelProps) {
-  const [reviewItems, setReviewItems] = useState<ReviewItem[]>(baseReviewItems)
   const [activeFilter, setActiveFilter] = useState<ReviewFilter>("All")
   const [searchQuery, setSearchQuery] = useState("")
-  const [lastRefreshed, setLastRefreshed] = useState(() => new Date().toLocaleTimeString())
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
-
-    const timer = window.setInterval(() => {
-      setLastRefreshed(new Date().toLocaleTimeString())
-    }, 30_000)
-
-    return () => {
-      window.clearInterval(timer)
-    }
   }, [])
 
   const filteredItems = useMemo(() => {
-    return reviewItems.filter((item) => {
+    return baseReviewItems.filter((item) => {
       const typeMatch = activeFilter === "All" || item.type === activeFilter
       const titleMatch = item.title.toLowerCase().includes(searchQuery.toLowerCase().trim())
       return typeMatch && titleMatch
     })
-  }, [activeFilter, reviewItems, searchQuery])
+  }, [activeFilter, searchQuery])
 
   return (
     <section className="space-y-5">
@@ -250,12 +229,8 @@ export default function ReviewCenterPanel({ showHeader = true }: ReviewCenterPan
           </div>
         </div>
 
-        <div className="mt-3 flex flex-col gap-1.5 border-t border-slate-100 pt-3 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-3 border-t border-slate-100 pt-3 text-xs text-slate-500">
           <p>{filteredItems.length} items visible</p>
-          <p className="inline-flex items-center gap-1">
-            <Sparkles className="h-3.5 w-3.5 text-blue-500" />
-            Auto-refresh marker: {lastRefreshed}
-          </p>
         </div>
       </section>
 

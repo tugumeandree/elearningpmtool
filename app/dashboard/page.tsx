@@ -9,8 +9,7 @@ import ReviewCenterPanel from "@/components/ReviewCenterPanel"
 import AnnouncementsPanel from "@/components/AnnouncementsPanel"
 import Toast from "@/components/Toast"
 import { fetchSheet, Task } from "@/lib/fetchSheet"
-
-type Channel = "implementation-timeline" | "milestones" | "module-tracker" | "review-center" | "announcements"
+import { Channel } from "@/lib/types"
 
 const validChannels: Channel[] = [
   "implementation-timeline",
@@ -75,16 +74,18 @@ export default function DashboardPage() {
 
   useEffect(() => {
     let alive = true
+    const controller = new AbortController()
 
     const loadTasks = async () => {
       try {
-        const data = await fetchSheet()
+        const data = await fetchSheet(controller.signal)
         if (!alive) return
         setTasks(data)
         setLastUpdated(new Date().toLocaleTimeString())
         setError(null)
       } catch (err) {
         if (!alive) return
+        if (err instanceof DOMException && err.name === "AbortError") return
         setError(err instanceof Error ? err.message : "Unable to fetch data")
       } finally {
         if (alive) setLoading(false)
@@ -98,6 +99,7 @@ export default function DashboardPage() {
 
     return () => {
       alive = false
+      controller.abort()
       window.clearInterval(timer)
     }
   }, [])

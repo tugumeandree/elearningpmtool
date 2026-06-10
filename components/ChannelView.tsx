@@ -1,4 +1,4 @@
-type Channel = "implementation-timeline" | "milestones" | "module-tracker" | "review-center" | "announcements"
+import { Channel } from "@/lib/types"
 
 interface ChannelViewProps {
   channel: Channel
