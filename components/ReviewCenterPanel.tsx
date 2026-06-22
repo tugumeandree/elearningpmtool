@@ -24,12 +24,25 @@ function buildModuleFolders(defaultLink: string) {
 const baseReviewItems: ReviewItem[] = [
   {
     id: 8,
-    title: "Youth Pre-testing & Validation",
+    title: "English Course Youth Pre-testing & Validation",
     description:
       "Youth pre-testing model validation (EN) — choose guest access on the model login page while testing.",
     type: "Validation",
     language: "EN",
     link: "https://ulearn.enabel.be/course/view.php?id=37",
+    openLabel: "Open Enabel LMS",
+    thumbnail: "https://eloncdn.blob.core.windows.net/eu3/sites/74/2025/04/moodle-image.jpg",
+    status: "Under Review",
+    owner: "Field Testing"
+  },
+  {
+    id: 9,
+    title: "French Course Youth Pre-testing & Validation",
+    description:
+      "Youth pre-testing model validation (FR) — choose guest access on the model login page while testing.",
+    type: "Validation",
+    language: "FR",
+    link: "https://ulearn.enabel.be/course/view.php?id=40",
     openLabel: "Open Enabel LMS",
     thumbnail: "https://eloncdn.blob.core.windows.net/eu3/sites/74/2025/04/moodle-image.jpg",
     status: "Under Review",

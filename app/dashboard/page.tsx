@@ -40,7 +40,7 @@ export default function DashboardPage() {
 
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [mobileHeaderElevated, setMobileHeaderElevated] = useState(false)
-  const [channel, setChannel] = useState<Channel>("implementation-timeline")
+  const [channel, setChannel] = useState<Channel>("review-center")
   const [tasks, setTasks] = useState<Task[]>([])
   const [selectedOwner, setSelectedOwner] = useState<string>("All")
   const [selectedAssistedBy, setSelectedAssistedBy] = useState<string>("All")

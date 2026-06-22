@@ -14,10 +14,10 @@ interface SidebarProps {
 }
 
 const channels: Array<{ id: Channel; label: string; icon: React.ComponentType<{ className?: string }> }> = [
+  { id: "review-center", label: "#review-center", icon: MessagesSquare },
   { id: "implementation-timeline", label: "#implementation-timeline", icon: KanbanSquare },
   { id: "milestones", label: "#milestones", icon: Flag },
   { id: "module-tracker", label: "#module-tracker", icon: ListTodo },
-  { id: "review-center", label: "#review-center", icon: MessagesSquare },
   { id: "announcements", label: "#announcements", icon: Megaphone }
 ]
 
